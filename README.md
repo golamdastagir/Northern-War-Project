@@ -1,61 +1,105 @@
 # Northern War Network Design
 
-Six-site enterprise network built in Cisco Packet Tracer — VLSM subnetting, mixed static/dynamic routing, DHCP relay, and distributed services (Web, DNS, Email, Print).
+Six-site enterprise network designed and implemented in **Cisco Packet Tracer** for the Computer Networks (CSE421) final project.
 
-Final project for Computer Networks (CSE421). Nominally a 3-person group project; the network design, addressing plan, and full router configuration were completed independently.
+The network connects **Aedrin, Cintra, Kaedwen, Kovir, Redenia, and Temeria** using VLSM subnetting, static and dynamic routing, DHCP, and distributed network services.
 
-## Overview
+## Network Overview
 
-Six sites needed to be connected under a single address space, each playing a different role: two with static IP addressing, the rest DHCP-served; three routing dynamically via RIPv2, three via static routes; and a small set of services (web, DNS, email, print) placed at specific sites. The task was to design the full addressing scheme from one `/16` block, build the topology, and configure every router for end-to-end reachability.
-
-## Topology
+- **Address space:** `10.13.0.0/16`
+- **Subnetting:** VLSM based on the required device population
+- **Host addressing:** Odd IP addresses only, as required by the project
+- **Static addressing:** Cintra and Aedrin
+- **DHCP:** Kaedwen, Kovir, Redenia, and Temeria
+- **Dynamic routing:** RIPv2 on Aedrin, Cintra, and Kaedwen
+- **Static routing:** Kovir, Redenia, and Temeria
+- **Redundancy:** Floating static route
+- **WAN:** Point-to-point `/30` links
 
 ![Network Topology](diagrams/topology.png)
 
-Six kingdom routers connected via nine `/30` WAN links (`Wan1`–`Wan9`), all carved from the same `10.13.0.0/16` block used for the site networks.
+## Network Services
 
-## Addressing & Site Roles
+| Site | Services |
+|---|---|
+| Cintra | Web Server, DNS Server |
+| Kovir | Printer |
+| Redenia | Printer |
+| Temeria | Email Server |
 
-| Site    | Network         | Hosts | Addressing | Routing | Role |
-|---------|-----------------|:-----:|:----------:|:-------:|------|
-| Cintra  | 10.13.0.0/22    | 1000  | Static     | RIPv2   | Web + DNS Server |
-| Aedrin  | 10.13.4.0/22    | 800   | Static     | RIPv2   | — |
-| Kaedwen | 10.13.8.0/22    | 784   | DHCP       | RIPv2   | — |
-| Kovir   | 10.13.12.0/22   | 519   | DHCP       | Static  | Printer |
-| Redenia | 10.13.16.0/23   | 401   | DHCP       | Static  | Printer |
-| Temeria | 10.13.18.0/23   | 302   | DHCP       | Static  | Email Server |
+The Cintra DNS server resolves:
 
-Subnets are sized by VLSM to fit each site's actual host count rather than a flat allocation, keeping address waste to a minimum.
+```text
+www.cintra.com
+```
 
-**VLSM Subnetting Tree**
+The website displays:
+
+```text
+Cintra is in Danger!
+```
+
+Email communication is configured between **Cintra and Temeria**.
+
+## Addressing
+
+### VLSM Tree
+
 ![VLSM Tree](diagrams/vlsm-tree.png)
 
-**Per-Site Subnet Allocation**
-![Subnetting Table](diagrams/vlsm-subnetting-table.png)
+### Subnet Allocation
 
-**Per-Interface Addressing**
-![Interface Addressing Table](diagrams/interface-addressing-table.png)
+![VLSM Subnetting](diagrams/vlsm-subnetting-table.png)
 
-## Repo Structure
+### IP Addressing
 
-```
-├── diagrams/       # Topology, VLSM tree, addressing tables
-├── config/         # show running-config, one file per router
-└── packet-tracer/  # Full .pkt topology file
+![IP Addressing Table](diagrams/interface-addressing-table.png)
+
+## Routing
+
+The network uses a combination of **RIPv2 and static routing**.
+
+- Aedrin, Cintra, and Kaedwen use RIPv2.
+- Kovir, Redenia, and Temeria use static routes.
+- A floating static route provides a backup path.
+- Default routes are not used for communication between the six kingdom networks.
+
+## Verification
+
+The completed network is tested for:
+
+- Branch-to-branch connectivity using `ping`
+- DHCP address assignment
+- RIPv2 and static route propagation
+- DNS resolution
+- Web server access
+- Email communication
+- Floating-route failover
+
+## Repository Structure
+
+```text
+Northern-War-Project/
+├── diagrams/
+│   ├── topology.png
+│   ├── vlsm-tree.png
+│   ├── vlsm-subnetting-table.png
+│   └── interface-addressing-table.png
+├── config/
+│   ├── Aedrin.txt
+│   ├── Cintra.txt
+│   ├── Kaedwen.txt
+│   ├── Kovir.txt
+│   ├── Redenia.txt
+│   └── Temeria.txt
+└── packet-tracer/
+    └── Northern-War.pkt
 ```
 
 ## Skills Demonstrated
 
-- VLSM subnetting and IP address planning under real allocation constraints
-- Static and dynamic (RIPv2) routing configuration across a multi-site topology
-- DHCP relay (`ip helper-address`) configuration across subnets
-- Multi-service network design (Web, DNS, Email, print) mapped to specific sites
-- Reading and auditing real router configuration output
+**Cisco Packet Tracer · VLSM · IPv4 Addressing · DHCP · DHCP Relay · RIPv2 · Static Routing · Floating Static Routes · DNS · Web Services · Email Services · Network Troubleshooting**
 
-## Status
+## Tools
 
-Core design and configuration are complete and working. Closing out a few compliance items against the original spec:
-
-- Add a floating static route (backup path with an explicit administrative distance) — not yet present.
-- Replace a few default-route workarounds on the static-routing sites with explicit static routes to the remaining kingdom networks.
-- Clean up leftover test IP addresses on a couple of unused interfaces.
+- Cisco Packet Tracer
