@@ -59,7 +59,3 @@ Core design and configuration are complete and working. Closing out a few compli
 - Add a floating static route (backup path with an explicit administrative distance) — not yet present.
 - Replace a few default-route workarounds on the static-routing sites with explicit static routes to the remaining kingdom networks.
 - Clean up leftover test IP addresses on a couple of unused interfaces.
-
-## Author
-
-Golam Dastagir — [GitHub](https://github.com/golamdastagir)
