@@ -1,0 +1,68 @@
+! Aedrin Router - show running-config (verbatim, Packet Tracer)
+! Site role: Dynamic Routing (RIPv2), Static IP addressing
+
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+no ip cef
+no ipv6 cef
+!
+spanning-tree mode pvst
+!
+interface GigabitEthernet0/0
+ ip address 10.13.4.1 255.255.252.0
+ ip helper-address 10.13.16.3
+ ip helper-address 10.13.12.3
+ ip helper-address 10.13.16.1
+ ip helper-address 10.13.12.1
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Serial0/0/0
+ ip address 10.13.20.5 255.255.255.252
+!
+interface Serial0/0/1
+ ip address 10.13.20.1 255.255.255.252
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router rip
+ version 2
+ passive-interface GigabitEthernet0/0
+ network 10.0.0.0
+ no auto-summary
+!
+ip classless
+ip route 10.13.16.0 255.255.254.0 10.13.20.2
+ip route 0.0.0.0 0.0.0.0 Serial0/0/1
+ip route 0.0.0.0 0.0.0.0 Serial0/0/0
+ip route 0.0.0.0 0.0.0.0 10.13.20.6
+!
+ip flow-export version 9
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+end

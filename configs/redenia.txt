@@ -1,0 +1,75 @@
+! Redenia Router - show running-config (verbatim, Packet Tracer)
+! Site role: Static Routing, DHCP-assigned host addressing
+! No database -- uses a network printer instead
+
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+no ip cef
+no ipv6 cef
+!
+spanning-tree mode pvst
+!
+interface GigabitEthernet0/0
+ ip address 10.13.16.1 255.255.254.0
+ ip helper-address 40.40.30.3
+ ip helper-address 10.13.18.3
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Serial0/0/0
+ ip address 10.13.20.2 255.255.255.252
+ clock rate 2000000
+!
+interface Serial0/0/1
+ ip address 10.13.20.14 255.255.255.252
+!
+interface Serial0/1/0
+ ip address 10.13.20.33 255.255.255.252
+!
+interface Serial0/1/1
+ ip address 10.13.20.30 255.255.255.252
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router rip
+!
+ip classless
+ip route 10.13.4.0 255.255.252.0 Serial0/0/0
+ip route 10.13.18.0 255.255.254.0 Serial0/1/1
+ip route 10.13.8.0 255.255.252.0 Serial0/1/0
+ip route 10.13.0.0 255.255.252.0 Serial0/0/1
+ip route 10.13.4.0 255.255.252.0 10.13.20.1
+ip route 10.13.0.0 255.255.252.0 10.13.20.13
+ip route 10.13.18.0 255.255.254.0 10.13.20.29
+ip route 0.0.0.0 0.0.0.0 Serial0/0/0
+ip route 10.13.12.0 255.255.252.0 10.13.20.6
+!
+ip flow-export version 9
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+end
