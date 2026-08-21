@@ -2,7 +2,7 @@
  
 A full network design and implementation in Cisco Packet Tracer, connecting six sites under a shared address space with mixed static/dynamic routing, DHCP, and distributed network services.
  
-## The Problem
+## [The Problem](The_Northern_War.pdf) (Click to see more details)
  
 Design and implement a network connecting six sites (Cintra, Aedrin, Kaedwen, Kovir, Redenia, Temeria), each with a different number of hosts, under the following constraints:
  
