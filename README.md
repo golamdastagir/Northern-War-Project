@@ -53,7 +53,7 @@ Email communication is configured between **Cintra and Temeria**.
 
 ![VLSM Tree](diagrams/vlsm-tree.png)
 
-Each LAN subnet is sized by VLSM to fit its host count with minimal waste; WAN links use `/29` subnets carved from a shared `10.13.40.0/24` block.
+Each LAN subnet is sized by VLSM to fit its host count with minimal waste; WAN links use `/29` subnets carved from a shared `10.13.40.0/22` block.
 
 ### Subnet Allocation
 
